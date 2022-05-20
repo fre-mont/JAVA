@@ -1,6 +1,7 @@
 package week12;
 
 import java.util.Scanner;
+
 interface Stack{
     int length();
     int capacity();
@@ -9,75 +10,73 @@ interface Stack{
     boolean push(String val);
 }
 
-class StringStack implements Stack{
-    private String stack[];
-    private int sp = 0;
+class StringStack implements Stack {
+    int num; // 스택에 저장 가능한 개수 num
+    int length; // 현재 스택에 저장된 개수 length
+    String[] stack;
 
-    public StringStack(int i){
-        stack = new String[i];
+    StringStack(int num) {
+        this.num = num;
+        this.length = 0;
+        stack = new String[num];
     }
 
-    public int length(){
-        return sp;
+    @Override
+    public int length() {
+        return length;
     }
 
-    public int capacity(){
-        return stack.length;
+    @Override
+    public int capacity() {
+        // TODO Auto-generated method stub
+        return num;
     }
 
-    public String pop(){
-        if(sp ==0){
-            return "empty";
-        }
-        else{
-            String pointer = stack[sp-1];
-            sp--;
-            return pointer;
-        }
+    @Override
+    public String pop() {
+        // TODO Auto-generated method stub
+        if (num < -1)
+            return null;
+        length--;
+        return stack[length];
+
     }
 
-    public boolean push(String val){
-        if(sp == stack.length){
-            return false;
-        }
-
-        else{
-            stack[sp] = val;
-            sp++;
+    @Override
+    public boolean push(String val) {
+        // TODO Auto-generated method stub
+        if (length < num) {
+            stack[length] = val;
+            length++;
             return true;
         }
+        return false;
     }
-
 }
 
 
 public class StackApp {
+
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("총 스택 저장 공간의 크기 입력 >> ");
-        int size = scan.nextInt();
-        StringStack st = new StringStack(size);
-
-        while(true){
-            System.out.print("문자열 입력 >> ");
-            String text = scan.next();
-
-            if(text.equals("그만")){
+        // TODO Auto-generated method stub
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("총 스택의 저장 공간의 크기 입력>>");
+        int num = scanner.nextInt();
+        StringStack sst = new StringStack(num);
+        while(true) {
+            System.out.print("문자열 입력>>");
+            String val = scanner.next();
+            if(val.equals("그만"))
                 break;
-            }
-
-            if(st.push(text) == false){
+            if(!sst.push(val)) {
                 System.out.println("스택이 꽉 차서 푸시 불가!");
             }
-
-            for(int i =0; i<st.length(); i++){
-                System.out.print(st.pop() + " ");
-            }
-
-
+        }
+         System.out.print("스택에 저장된 모든 문자열 팝 : ");
+        for(int i = 0; i<num; i++) {
+            System.out.print(sst.pop() +" ");
         }
 
-        scan.close();
+        scanner.close();
     }
-    
 }
